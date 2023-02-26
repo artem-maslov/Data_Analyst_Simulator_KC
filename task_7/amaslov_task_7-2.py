@@ -364,6 +364,7 @@ def amaslov_task_7_2_dag():
     create_plots(DAU, actions_per_user, cohort_table_feed, cohort_table_messenger, chat_id)
      
     
+    
 amaslov_task_7_2_dag = amaslov_task_7_2_dag()    
 
 
