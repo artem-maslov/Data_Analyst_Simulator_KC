@@ -1,4 +1,4 @@
-# data_dnalyst_simulator_KC
+# data_analyst_simulator_KC
 
 <div align="center">
   
