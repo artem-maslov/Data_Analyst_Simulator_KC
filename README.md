@@ -37,10 +37,9 @@ Finally, I also automate the process of finding anomalies and sending the alert 
 [8_anomaly_search_alert_system](https://github.com/artem-maslov/data_analyst_simulator_KC/tree/main/8_anomaly_search_alert_system)
 
 In my free time from the internship, I solve additional tasks on statistics. 
-[]()
 
 <br>
-<br>
+
 **Stack:**
 * SQL (Clickhouse)
 * Python (Pandas, Seaborn, Matplotlib, Numpy)
