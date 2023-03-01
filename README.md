@@ -1,6 +1,12 @@
 # data_dnalyst_simulator_KC
 
+<div align="center">
+  
 This is my portfolio from data analyst simulator (Karpov Courses).
+  
+</div>
+<br>
+<br>
 
 **Data analyst simulator is an internship in a company, its product is a mobile application with a news feed and messages. I work as a data analyst and create all analytics from scratch.**
 
@@ -18,6 +24,8 @@ Finally, I also automate the process of finding anomalies and sending the alert 
 
 In my free time from the internship, I solve additional tasks on statistics. []()
 
+<br>
+<br>
 **Stack:**
 * SQL (Clickhouse)
 * Python (Pandas, Seaborn, Matplotlib, Numpy)
