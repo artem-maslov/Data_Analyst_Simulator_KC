@@ -16,11 +16,11 @@ First, based on the database, I need to create dashboards and answer the questio
 [3_dashboards](https://github.com/artem-maslov/data_analyst_simulator_KC/tree/main/3_dashboards)
 
 
-Now you can move on to more complex analytics and answer more complex questions, the causes of anomalies, and calculate complex metrics. 
+Now I move on to more complex analytics and answer more complex questions, the causes of anomalies, and calculate complex metrics. 
 <br>
 [4_analysis_of_product_metrics](https://github.com/artem-maslov/data_analyst_simulator_KC/tree/main/4_analysis_of_product_metrics)
 
-Having built visual analytics for yourself and your colleagues, you can move on to solving applied problems. There are 4 groups hashed with salt, and with them you need to forgive first the AA test, then the AB tests and answer business questions about the feasibility of innovations.
+Having built visual analytics for myself and my colleagues, I move on to solving applied problems. There are 4 groups hashed with salt, and with them I need to first the AA testing, then the AB testing and answer business questions about the feasibility of innovations.
 <br>
 [5_AB-tests](https://github.com/artem-maslov/data_analyst_simulator_KC/tree/main/5_AB-tests)
 
@@ -32,11 +32,11 @@ Next, I move on to automation and create daily reports on key metrics.
 <br>
 [7_reports_automatization](https://github.com/artem-maslov/data_analyst_simulator_KC/tree/main/7_reports_automatization)
 
-Finally, I also automate the process of finding anomalies and sending the alert system. 
+Finally, I automate the process of finding anomalies and sending the alert system. 
 <br>
 [8_anomaly_search_alert_system](https://github.com/artem-maslov/data_analyst_simulator_KC/tree/main/8_anomaly_search_alert_system)
 
-In my free time from the internship, I solve additional tasks on statistics. 
+In my free time from the internship, I've been solving additional tasks on statistics. 
 
 <br>
 
