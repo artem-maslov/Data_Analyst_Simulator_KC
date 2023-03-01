@@ -2,7 +2,7 @@
 
 This is my portfolio from data analyst simulator (Karpov Courses).
 
-Data analyst simulator is an internship in a company, its product is a mobile application with a news feed and messages. I work as a data analyst and create all analytics from scratch.
+**Data analyst simulator is an internship in a company, its product is a mobile application with a news feed and messages. I work as a data analyst and create all analytics from scratch.**
 
 First, based on the database, I need to create dashboards and answer the questions "how much" and "when". [3_dashboards](https://github.com/artem-maslov/data_analyst_simulator_KC/tree/main/3_dashboards)
 
@@ -17,4 +17,13 @@ Next, I move on to automation and create daily reports on key metrics. [7_report
 Finally, I also automate the process of finding anomalies and sending the alert system. [8_anomaly_search_alert_system](https://github.com/artem-maslov/data_analyst_simulator_KC/tree/main/8_anomaly_search_alert_system)
 
 In my free time from the internship, I solve additional tasks on statistics. []()
+
+**Stack:**
+* SQL (Clickhouse)
+* Python (Pandas, Seaborn, Matplotlib, Numpy)
+* Apache Superset
+* Airflow
+* Redash
+* Gitlab
+* Jupiter Notebook
 
