@@ -50,7 +50,7 @@
 
 В лекции я показывал график, который позволяет взглянуть на активную аудиторию с точки зрения новых, старых и ушедших пользователей. Попробуйте самостоятельно построить такой график:
 
-![task_4-4.jpg](https://github.com/artem-maslov/data_analyst_simulator_KC/blob/main/task_4/task_4-4.jpg?raw=true)
+![task_4-4.jpg](https://github.com/artem-maslov/data_analyst_simulator_KC/blob/main/4_analysis_of_product_metrics/T_4-4.jpg?raw=true)
 
 
 ### solution_4-4
