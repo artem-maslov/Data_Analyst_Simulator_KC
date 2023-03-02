@@ -8,7 +8,7 @@ This is my portfolio from data analyst simulator (Karpov Courses).
 <br>
 <br>
 
-**Data analyst simulator is an internship in a company, its product is a mobile application with a news feed and messages. I work as a data analyst and create all analytics from scratch.**
+**Data analyst simulator is an internship in a company, its product is a mobile application with a news feed and messenger. I work as a data analyst and create all analytics from scratch.**
 
 
 First, based on the database, I need to create dashboards and answer the questions "how much" and "when".
