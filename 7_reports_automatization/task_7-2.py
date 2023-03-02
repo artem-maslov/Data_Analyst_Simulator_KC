@@ -268,6 +268,96 @@ def amaslov_task_7_2_dag():
     
     
     
+    # 2.5 weekly_audience_plot_feed
+    # подключаюсь к бд и вывожу дф с аудиторией по неделям
+    @task()
+    def extract_weekly_audience_feed():
+        query_weekly_audience_feed = '''
+                                        SELECT *
+                                        FROM
+                                        (SELECT this_week, previous_week, -uniq(user_id) as num_users, status 
+                                        FROM
+
+                                            (SELECT user_id, 
+                                            groupUniqArray(toMonday(toDate(time))) as weeks_visited, 
+                                            addWeeks(arrayJoin(weeks_visited), +1) this_week, 
+                                            if(has(weeks_visited, this_week) = 1, 'старые', 'ушедшие') as status, 
+                                            addWeeks(this_week, -1) as previous_week
+                                            FROM simulator_20230120.feed_actions
+                                            group by user_id
+                                            )
+
+                                        WHERE status = 'ушедшие'
+                                        GROUP BY this_week, previous_week, status
+                                        HAVING this_week != addWeeks(toMonday(today()), +1)
+
+                                        UNION all
+
+                                        SELECT this_week, previous_week, toInt64(uniq(user_id)) as num_users, status 
+                                        FROM
+                                            (SELECT user_id, 
+                                            groupUniqArray(toMonday(toDate(time))) as weeks_visited, 
+                                            arrayJoin(weeks_visited) this_week, 
+                                            if(has(weeks_visited, addWeeks(this_week, -1)) = 1, 'старые', 'новые') as status, 
+                                            addWeeks(this_week, -1) as previous_week
+                                            FROM simulator_20230120.feed_actions
+                                            group by user_id)
+                                        group by this_week, previous_week, status)
+
+                                        ORDER BY this_week  
+                                    '''    
+        weekly_audience_feed = ph.read_clickhouse(query = query_weekly_audience_feed, connection=connection)
+        weekly_audience_feed = weekly_audience_feed.astype({'this_week':'str'}) # делаю дату строкой для отображения на графике
+        weekly_audience_feed = weekly_audience_feed.pivot(index='this_week', columns='status', values='num_users') # создаю pivot таблицу чтобы можно было построить график 
+        return weekly_audience_feed
+    
+    
+    
+    # 2.6 weekly_audience_plot_messenger
+    # подключаюсь к бд и вывожу дф с аудиторией по неделям
+    @task()
+    def extract_weekly_audience_messenger():
+        query_weekly_audience_messenger = '''
+                                            SELECT *
+                                            FROM
+                                            (SELECT this_week, previous_week, -uniq(user_id) as num_users, status 
+                                            FROM
+
+                                                (SELECT user_id, 
+                                                groupUniqArray(toMonday(toDate(time))) as weeks_visited, 
+                                                addWeeks(arrayJoin(weeks_visited), +1) this_week, 
+                                                if(has(weeks_visited, this_week) = 1, 'старые', 'ушедшие') as status, 
+                                                addWeeks(this_week, -1) as previous_week
+                                                FROM simulator_20230120.message_actions
+                                                group by user_id
+                                                )
+
+                                            WHERE status = 'ушедшие'
+                                            GROUP BY this_week, previous_week, status
+                                            HAVING this_week != addWeeks(toMonday(today()), +1)
+
+                                            UNION all
+
+                                            SELECT this_week, previous_week, toInt64(uniq(user_id)) as num_users, status 
+                                            FROM
+                                                (SELECT user_id, 
+                                                groupUniqArray(toMonday(toDate(time))) as weeks_visited, 
+                                                arrayJoin(weeks_visited) this_week, 
+                                                if(has(weeks_visited, addWeeks(this_week, -1)) = 1, 'старые', 'новые') as status, 
+                                                addWeeks(this_week, -1) as previous_week
+                                                FROM simulator_20230120.message_actions
+                                                group by user_id)
+                                            group by this_week, previous_week, status)
+
+                                            ORDER BY this_week 
+                                        '''    
+        weekly_audience_messenger = ph.read_clickhouse(query = query_weekly_audience_messenger, connection=connection)
+        weekly_audience_messenger = weekly_audience_messenger.astype({'this_week':'str'}) # делаю дату строкой для отображения на графике
+        weekly_audience_messenger = weekly_audience_messenger.pivot(index='this_week', columns='status', values='num_users') # создаю pivot таблицу чтобы можно было построить график 
+        return weekly_audience_messenger
+    
+    
+    
     # создаю сообщение отчет для тг 
     @task()
     def create_message(DAU_yesterday, actions, chat_id):
@@ -296,11 +386,11 @@ def amaslov_task_7_2_dag():
         
         bot.sendMessage(chat_id=chat_id, text=message)
         
-        
-        
+            
+    
     # создаю графики для тг 
     @task()
-    def create_plots(DAU, actions_per_user, cohort_table_feed, cohort_table_messenger, chat_id):
+    def create_plots(DAU, actions_per_user, cohort_table_feed, cohort_table_messenger, weekly_audience_feed, weekly_audience_messenger, chat_id):
         
         sns.set(rc={'figure.figsize':(11, 7)}) #размеры, ширина и высота
         
@@ -348,6 +438,30 @@ def amaslov_task_7_2_dag():
         plt.close()
         bot.sendPhoto(chat_id=chat_id, photo=plot_object)
         
+        # рисую barplot по недельной аудитории feed       
+        sns.set(rc={'figure.figsize':(20, 15)})
+        weekly_audience_feed.plot(kind='bar', stacked=True, color=['green', 'darkblue', 'brown'])
+        plt.title('аудитория_по_неделям_лента')   
+        # отправляю график
+        plot_object = io.BytesIO()
+        plt.savefig(plot_object)
+        plot_object.seek(0) 
+        plot_object.name = 'недельная аудитория лента.png'
+        plt.close()
+        bot.sendPhoto(chat_id=chat_id, photo=plot_object)
+
+        # рисую barplot по недельной аудитории messenger       
+        sns.set(rc={'figure.figsize':(20, 15)})
+        weekly_audience_messenger.plot(kind='bar', stacked=True, color=['green', 'darkblue', 'brown'])
+        plt.title('аудитория_по_неделям_мессенджер')   
+        # отправляю график
+        plot_object = io.BytesIO()
+        plt.savefig(plot_object)
+        plot_object.seek(0) 
+        plot_object.name = 'недельная аудитория мессенджер.png'
+        plt.close()
+        bot.sendPhoto(chat_id=chat_id, photo=plot_object)
+
         
         
     # выполняю таски
@@ -359,9 +473,11 @@ def amaslov_task_7_2_dag():
     actions_per_user = extract_actions_plot()
     cohort_table_feed = extract_retention_feed()
     cohort_table_messenger = extract_retention_messenger()
+    weekly_audience_feed = extract_weekly_audience_feed()
+    weekly_audience_messenger = extract_weekly_audience_messenger()
     # отчеты
     create_message(DAU_yesterday, actions, chat_id)
-    create_plots(DAU, actions_per_user, cohort_table_feed, cohort_table_messenger, chat_id)
+    create_plots(DAU, actions_per_user, cohort_table_feed, cohort_table_messenger, weekly_audience_feed, weekly_audience_messenger, chat_id)
      
     
 amaslov_task_7_2_dag = amaslov_task_7_2_dag()    
