@@ -37,6 +37,8 @@ Finally, I automate the process of finding anomalies and sending the alert syste
 [8_anomaly_search_alert_system](https://github.com/artem-maslov/data_analyst_simulator_KC/tree/main/8_anomaly_search_alert_system)
 
 In my free time from the internship, I've been solving additional tasks on statistics. 
+<br>
+[9_practice_tasks](https://github.com/artem-maslov/data_analyst_simulator_KC/tree/main/9_practice_tasks)
 
 <br>
 
